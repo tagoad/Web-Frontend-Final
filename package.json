@@ -2,10 +2,9 @@
   "name": "papyrus",
   "version": "1.0.0",
   "description": "",
-  "source": "./src/index.html",
   "scripts": {
-    "start": "parcel --open",
-    "build": "parcel build",
+    "start": "snowpack dev",
+    "build": "snowpack build",
     "lint": "eslint *.js src/**/*.js",
     "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,ts,css}\""
   },
@@ -13,11 +12,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@snowpack/plugin-sass": "^1.4.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
-    "parcel": "^2.4.0",
-    "prettier": "^2.6.1"
+    "prettier": "^2.6.1",
+    "sass": "^1.49.10",
+    "snowpack": "^2.18.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@popperjs/core": "^2.11.4",
+    "bootstrap": "^5.1.3"
+  }
 }
