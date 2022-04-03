@@ -44,4 +44,14 @@ button {
     }
 }
 
+.container-title {
+    position: sticky;
+    text-align: left;
+    padding: 1em;
+    background-color: lightgray;
+}
+
+/* Blog Styles */
+@import './blogs.scss';
+
 @import "../../node_modules/bootstrap/scss/bootstrap"
