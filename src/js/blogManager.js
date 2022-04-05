@@ -1,22 +1,27 @@
 import ExternalServices from "./externalServices";
-import { renderListWithTemplate, renderWithTemplate } from "./util";
+import { renderListWithTemplate, renderWithTemplateId, loadTemplate } from "./util";
 
 export default class BlogManager {
-    constructor(parent, templateId, parentFeatured = null) {
+    constructor(parent, templateId) {
         this.dataSource = new ExternalServices
         this.parent = parent
-        this.parentFeatured = parentFeatured
         this.templateId = templateId
     }
 
     async renderFeaturedBlogs() {
         const blogs = await this.dataSource.getFeaturedBlogs()
-        renderListWithTemplate(this.templateId, this.parentFeatured, blogs.items, this.renderBlogSummary)
+        loadTemplate('../partials/blog-summary.html').then((template) => {
+            console.log(template)
+            renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
+        })
     }
 
     async renderBlogSummaryList() {
         const blogs = await this.dataSource.getBlogs()
-        renderListWithTemplate(this.templateId, this.parent, blogs.items, this.renderBlogSummary)
+        loadTemplate('../partials/blog-summary.html').then((template) => {
+            console.log(template)
+            renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
+        })
     }
 
     renderBlogSummary(clone, blog) {
@@ -29,20 +34,17 @@ export default class BlogManager {
         // Set Content
         clone.querySelector(".blog-summary-content").textContent = blog.summary
         // Set Link
-        clone.querySelector(".blog-summary-link").setAttribute("href", `/blogs/id/${blog.id}`)
+        clone.querySelector(".blog-summary-link").setAttribute("href", `/blog?id=${blog.id}`)
         // Set Featured
         if (blog.featured == 'true') {
-            const div = document.createElement('div')
-            div.classList.add('blog-summary-featured')
-            div.textContent = 'Featured!'
-            clone.prepend(div)
+            clone.querySelector(".blog-summary-featured").textContent = 'Featured!'
         }
         return clone
     }
 
     async renderBlogDetail(id) {
         const blog = await this.dataSource.getBlogById(id)
-        renderWithTemplate(this.templateId, this.parent, blog, this.renderBlogDetails)
+        renderWithTemplateId(this.templateId, this.parent, blog, this.renderBlogDetails)
     }
 
     renderBlogDetails(clone, blog) {

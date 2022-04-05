@@ -1,13 +1,14 @@
 .blog-summary-list, .blog-featured-list {
     display: flex;
+    margin: .5em;
     flex-direction: column;
+    gap: .5em;
     justify-content: center;
     align-items: center;
 }
 
 .blog-summary {
     width: 100%;
-    margin: .25em;
     border: 1px solid #ccc;
     border-radius: .5em;
     overflow: hidden;
