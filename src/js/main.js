@@ -1,7 +1,9 @@
 import BlogManager from "./blogManager";
-import { getLocalStorage, loadHeaderFooter } from "./util";
+import { loadHeaderFooter } from "./util";
 
 const blogManager = new BlogManager(document.querySelector(".blog-featured-list"));
 
-loadHeaderFooter()
+// Render List of Featured Blog Summaries
 blogManager.renderFeaturedBlogs()
+// Load Header and Footer
+loadHeaderFooter()

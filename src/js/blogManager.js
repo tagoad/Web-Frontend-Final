@@ -2,28 +2,40 @@ import ExternalServices from "./externalServices";
 import { renderListWithTemplate, loadTemplate, renderWithTemplate } from "./util";
 
 export default class BlogManager {
+    // Default constructor
     constructor(parent) {
         this.dataSource = new ExternalServices()
         this.parent = parent
     }
 
+    // Get and Render All Featured Blogs
     async renderFeaturedBlogs() {
         const blogs = await this.dataSource.getFeaturedBlogs()
+        // sort blogs
+        blogs.items.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date)
+        })
         loadTemplate('../partials/blog-summary.html').then((template) => {
             renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
         })
     }
 
+    // Get and Render All Blogs
     async renderBlogSummaryList(blogs = null, admin=null) {
         if (blogs == null) {
             blogs = await this.dataSource.getBlogs()
         }
+        // sort blogs
+        blogs.items.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date)
+        })
         loadTemplate('../partials/blog-summary.html').then((template) => {
             console.log(template)
             renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary, admin)
         })
     }
 
+    // Render Blog Summary with optional admin flag
     renderBlogSummary(clone, blog, admin=null) {
         // Set Title
         clone.querySelector(".blog-summary-title").textContent = blog.title
@@ -67,6 +79,7 @@ export default class BlogManager {
         return clone
     }
 
+    // Get and Render Blog Detail
     async renderBlogDetail(id) {
         const blog = await this.dataSource.getBlogById(id)
         loadTemplate('../partials/blog-details.html').then((template) => {
@@ -75,6 +88,7 @@ export default class BlogManager {
         })
     }
 
+    // Render Blog Details
     renderBlogDetails(clone, blog) {
         // Set Title
         clone.querySelector(".blog-details-title").textContent = blog.title

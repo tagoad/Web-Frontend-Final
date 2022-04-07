@@ -1,18 +1,21 @@
 import ExternalServices from "./externalServices";
 import BlogManager from "./blogManager";
-import { loadTemplate, renderWithTemplate, alertMessage, validateEmail, setLocalStorage, getLocalStorage, renderListWithTemplate } from "./util";
+import { loadTemplate, renderWithTemplate, alertMessage, validateEmail, setLocalStorage, getLocalStorage } from "./util";
 
 export default class UserManager {
+    // Constructor
     constructor(parent) {
         this.dataSource = new ExternalServices()
         this.blogManager = new BlogManager()
         this.parent = parent
     }
 
+    // Clear Parent Element
     clearParent() {
         this.parent.innerHTML = ""
     }
 
+    // Show Login Form
     async renderLoginForm() {
         this.clearParent()
         loadTemplate('../partials/login-form.html').then((template) => {
@@ -20,6 +23,7 @@ export default class UserManager {
         }).then( () => this.attachLoginListeners())
     }
 
+    // Show Register Form
     async renderResgisterForm() {
         this.clearParent()
         loadTemplate('../partials/register-form.html').then((template) => {
@@ -27,6 +31,7 @@ export default class UserManager {
         }).then( () => this.attachRegisterListeners())
     }
 
+    // Show Admin Portal
     async renderUserInfo(id=null) {
         const token = await getLocalStorage('token')
         const blogs = await this.dataSource.getBlogsByUser(token.user)
@@ -43,6 +48,7 @@ export default class UserManager {
         }).then( () => this.attachUserInfoListeners())
     }
 
+    // Attach Login Listeners
     attachLoginListeners() {
         document.getElementById("login").addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -83,6 +89,7 @@ export default class UserManager {
         })
     }
 
+    // Attach Register Listeners
     attachRegisterListeners() {
         document.getElementById("register").addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -136,7 +143,9 @@ export default class UserManager {
         })
     }
 
+    // Attach User Info Listeners
     attachUserInfoListeners() {
+        // Blog Creation Listener
         document.getElementById("create-blog").addEventListener("submit", async (e) => {
             e.preventDefault();
         
@@ -158,6 +167,8 @@ export default class UserManager {
             }
 
             const featuredInput = document.getElementById("featured")
+
+            // Hidden inputs for editing
             const idInput = document.getElementById("blog-id")
             const dateInput = document.getElementById("date")
 
@@ -184,11 +195,13 @@ export default class UserManager {
                 window.history.replaceState({}, 'Papyrus | Admin', '/admin')
             }
         })
+        // Creation Button Listener - Toggle Create Form
         document.getElementById("create-button").addEventListener("click", async (e) => {
             e.preventDefault();
             document.getElementById("create-wrapper").classList.toggle("visually-hidden")
             window.scrollTo(0, 0)
         })
+        // Logout Button - Clears Token and redirects
         document.getElementById("logout-button").addEventListener("click", async (e) => {
             e.preventDefault();
             localStorage.removeItem('token')
@@ -196,6 +209,7 @@ export default class UserManager {
         })
     }
 
+    // Feed Blog data for editing
     async setEditForm(id) {
         const blog = await this.dataSource.getBlogById(id)
         document.getElementById("title").value = blog.title

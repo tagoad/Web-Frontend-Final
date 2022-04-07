@@ -3,6 +3,7 @@ export function getLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
 
+// Async get data from localstorage
 export async function getLocalStorageAsync(key) {
     return JSON.parse(localStorage.getItem(key));
 }  
@@ -18,20 +19,7 @@ export function validateEmail(email) {
     return re.test(email);
 }
 
-export function renderListWithTemplateId(
-    templateId,
-    parentElement,
-    list,
-    callback
-) {
-    const template = document.getElementById(templateId);
-    list.forEach((item) => {
-        const clone = template.content.firstElementChild.cloneNode(true);
-        const renderedTemplate = callback(clone, item);
-        parentElement.appendChild(renderedTemplate);
-    });
-}
-
+// Render List with a given template
 export function renderListWithTemplate(
     template,
     parentElement,
@@ -46,18 +34,7 @@ export function renderListWithTemplate(
     });
 }
 
-export function renderWithTemplateId(
-    templateId,
-    parentElement,
-    data,
-    callback
-) {
-    const template = document.getElementById(templateId);
-    const clone = template.content.cloneNode(true);
-    const renderedTemplate = callback(clone, data);
-    parentElement.appendChild(renderedTemplate);
-}
-
+// Render Single Element with a given template
 export function renderWithTemplate(
     template,
     parentElement,
@@ -73,28 +50,33 @@ export function renderWithTemplate(
     }
   }
 
+// Load a Template from a given path
 export async function loadTemplate(path) {
     const contents = await fetch(path).then((res) => res.text());
     const template = document.createElement("template");
     template.innerHTML = contents;
     return template;
-  }
+}
 
+// Load Header and Footer
 export function loadHeaderFooter() {
     const header = document.getElementById("header");
     const footer = document.getElementById("footer");
-    // loadTemplate("../partials/header.html")
-    // .then((template) => renderWithTemplate(template, header))
+    loadTemplate("../partials/header.html")
+    .then((template) => renderWithTemplate(template, header))
     loadTemplate("../partials/footer.html").then((template) =>
     renderWithTemplate(template, footer)
     );
 }
 
+// Get URL Params
 export function getURLParams(url = window.location.href) {
     const params = (new URL(url)).searchParams;
     return params;
 }
 
+
+// Alert Popup
 export function alertMessage(message, alertType = "alert", scroll = true) {
     // create element to hold our alert
     const alert = document.createElement("div");
