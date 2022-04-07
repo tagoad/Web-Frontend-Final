@@ -2,10 +2,11 @@ import BlogManager from "./blogManager.js";
 import { loadHeaderFooter } from "./util.js";
 
 const blogManager = new BlogManager(
-  document.querySelector(".blog-featured-list")
+  document.querySelector(".blog-summary-list"),
+  "blog-summary-template"
 );
 
-// Render List of Featured Blog Summaries
-blogManager.renderFeaturedBlogs();
+// Render List of Blog Summaries
+blogManager.renderBlogSummaryList();
 // Load Header and Footer
 loadHeaderFooter();
