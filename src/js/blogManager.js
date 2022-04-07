@@ -12,35 +12,31 @@ export default class BlogManager {
     async renderFeaturedBlogs() {
         const blogs = await this.dataSource.getFeaturedBlogs()
         // sort blogs
-        blogs.items.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date)
-        })
-        loadTemplate('../partials/blog-summary.html').then((template) => {
+        blogs.items.sort((a, b) => new Date(b.date) - new Date(a.date))
+        loadTemplate("../partials/blog-summary.html").then((template) => {
             renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
         })
     }
 
     // Get and Render All Blogs
-    async renderBlogSummaryList(blogs = null, admin=null) {
-        if (blogs == null) {
-            blogs = await this.dataSource.getBlogs()
+    async renderBlogSummaryList(blogs = null, admin = null) {
+        let bloglist = blogs
+        if (bloglist == null) {
+            bloglist = await this.dataSource.getBlogs()
         }
         // sort blogs
-        blogs.items.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date)
-        })
-        loadTemplate('../partials/blog-summary.html').then((template) => {
-            console.log(template)
-            renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary, admin)
+        bloglist.items.sort((a, b) => new Date(b.date) - new Date(a.date))
+        loadTemplate("../partials/blog-summary.html").then((template) => {
+            renderListWithTemplate(template, this.parent, bloglist.items, this.renderBlogSummary, admin)
         })
     }
 
     // Render Blog Summary with optional admin flag
-    renderBlogSummary(clone, blog, admin=null) {
+    renderBlogSummary(clone, blog, admin = null) {
         // Set Title
         clone.querySelector(".blog-summary-title").textContent = blog.title
         // Set Author
-        clone.querySelector(".blog-summary-author").textContent = 'by ' + blog.dName
+        clone.querySelector(".blog-summary-author").textContent = "by " + blog.dName
         // Set Date
         clone.querySelector(".blog-summary-date").textContent = blog.date
         // Set Content
@@ -48,8 +44,8 @@ export default class BlogManager {
         // Set Link
         clone.querySelector(".blog-summary-link").setAttribute("href", `/blog-details?id=${blog.id}`)
         // Set Featured
-        if (blog.featured == 'true') {
-            clone.querySelector(".blog-summary-featured").textContent = 'Featured!'
+        if (blog.featured == "true") {
+            clone.querySelector(".blog-summary-featured").textContent = "Featured!"
         }
         if(admin) {
             // Add edit button
@@ -68,7 +64,7 @@ export default class BlogManager {
                 // Get confirmation
                 if (confirm("Are you sure you want to delete this blog?")) {
                     const dataSource = new ExternalServices()
-                    console.log(blog.id)
+
                     dataSource.deleteBlog(blog.id).then(() => {
                         window.location.href = "/admin"
                     })
@@ -82,8 +78,7 @@ export default class BlogManager {
     // Get and Render Blog Detail
     async renderBlogDetail(id) {
         const blog = await this.dataSource.getBlogById(id)
-        loadTemplate('../partials/blog-details.html').then((template) => {
-            console.log(template)
+        loadTemplate("../partials/blog-details.html").then((template) => {
             renderWithTemplate(template, this.parent, blog, this.renderBlogDetails)
         })
     }

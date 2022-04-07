@@ -18,25 +18,25 @@ export default class UserManager {
     // Show Login Form
     async renderLoginForm() {
         this.clearParent()
-        loadTemplate('../partials/login-form.html').then((template) => {
+        loadTemplate("../partials/login-form.html").then((template) => {
             renderWithTemplate(template, this.parent)
-        }).then( () => this.attachLoginListeners())
+        }).then(() => this.attachLoginListeners())
     }
 
     // Show Register Form
     async renderResgisterForm() {
         this.clearParent()
-        loadTemplate('../partials/register-form.html').then((template) => {
+        loadTemplate("../partials/register-form.html").then((template) => {
             renderWithTemplate(template, this.parent)
-        }).then( () => this.attachRegisterListeners())
+        }).then(() => this.attachRegisterListeners())
     }
 
     // Show Admin Portal
-    async renderUserInfo(id=null) {
-        const token = await getLocalStorage('token')
+    async renderUserInfo(id = null) {
+        const token = await getLocalStorage("token")
         const blogs = await this.dataSource.getBlogsByUser(token.user)
         this.clearParent()
-        loadTemplate('../partials/user-info.html').then((template) => {
+        loadTemplate("../partials/user-info.html").then((template) => {
             renderWithTemplate(template, this.parent)
         }).then(() => {
             if(id) {
@@ -45,7 +45,7 @@ export default class UserManager {
             this.blogManager.parent = document.querySelector(".blog-summary-list")
             document.querySelector(".user-info-dname").textContent = token.dname
             this.blogManager.renderBlogSummaryList(blogs, true)
-        }).then( () => this.attachUserInfoListeners())
+        }).then(() => this.attachUserInfoListeners())
     }
 
     // Attach Login Listeners
@@ -75,10 +75,10 @@ export default class UserManager {
             }
             this.dataSource.login(email.value, password.value).then((response) => {
                 if(response.error) {
-                    alertMessage(response.error, 'alert')
+                    alertMessage(response.error, "alert")
                 } else {
-                    alertMessage('Welcome to the app!', 'success')
-                    setLocalStorage('token', response)
+                    alertMessage("Welcome to the app!", "success")
+                    setLocalStorage("token", response)
                     this.renderUserInfo()
                 }
             })
@@ -134,12 +134,15 @@ export default class UserManager {
             } else {
                 password.classList.remove("is-invalid");
             }
-            console.log(valid)
             if(!valid){
                 return
             }
             let response = await this.dataSource.register(fnameInput.value, lname.value, dname.value, email.value, password.value)
-            this.renderLoginForm().then(() => alertMessage('Welcome to the app! Please login in now', 'success'))
+            if(response.error) {
+                alertMessage(response.error, "alert")
+            } else {
+                this.renderLoginForm().then(() => alertMessage("Welcome to the app! Please login in now", "success"))
+            }
         })
     }
 
@@ -172,15 +175,14 @@ export default class UserManager {
             const idInput = document.getElementById("blog-id")
             const dateInput = document.getElementById("date")
 
-            console.log(valid)
             if(!valid){
                 return
             }
-            const token = await getLocalStorage('token')
+            const token = await getLocalStorage("token")
             const blog = {
                 title: titleInput.value,
-                featured: featuredInput.checked ? 'true' : 'false',
-                summary: contentInput.value.length > 100 ? contentInput.value.substring(0, 100) + '...' : contentInput.value,
+                featured: featuredInput.checked ? "true" : "false",
+                summary: contentInput.value.length > 100 ? contentInput.value.substring(0, 100) + "..." : contentInput.value,
                 content: contentInput.value,
                 date: dateInput.value ? dateInput.value : new Date().toLocaleDateString("en-US"),
                 id: idInput.value ? idInput.value : null,
@@ -189,10 +191,10 @@ export default class UserManager {
             }
             let response = await this.dataSource.postBlog(blog, token.token)
             if(response.error) {
-                alertMessage(response.error, 'alert')
+                alertMessage(response.error, "alert")
             } else {
-                this.renderUserInfo().then(() => alertMessage('Blogging Success!', 'success'))
-                window.history.replaceState({}, 'Papyrus | Admin', '/admin')
+                this.renderUserInfo().then(() => alertMessage("Blogging Success!", "success"))
+                window.history.replaceState({}, "Papyrus | Admin", "/admin")
             }
         })
         // Creation Button Listener - Toggle Create Form
@@ -204,7 +206,7 @@ export default class UserManager {
         // Logout Button - Clears Token and redirects
         document.getElementById("logout-button").addEventListener("click", async (e) => {
             e.preventDefault();
-            localStorage.removeItem('token')
+            localStorage.removeItem("token")
             this.renderLoginForm()
         })
     }
@@ -214,7 +216,7 @@ export default class UserManager {
         const blog = await this.dataSource.getBlogById(id)
         document.getElementById("title").value = blog.title
         document.getElementById("content").value = blog.content
-        document.getElementById("featured").checked = blog.featured === 'true'
+        document.getElementById("featured").checked = blog.featured === "true"
         document.getElementById("blog-id").value = blog.id
         document.getElementById("date").value = blog.date
         document.getElementById("create-wrapper").classList.remove("visually-hidden")
