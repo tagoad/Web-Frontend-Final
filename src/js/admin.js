@@ -6,12 +6,12 @@ const params = getURLParams();
 
 // Check Authentication Status of the User
 getLocalStorageAsync("token").then((token) => {
-    if (token) {
-        userManager.renderUserInfo(params.get("id"));
-    } else {
-        userManager.renderLoginForm()
-    }
+  if (token) {
+    userManager.renderUserInfo(params.get("id"));
+  } else {
+    userManager.renderLoginForm();
+  }
 });
 
 // Load Header and Footer
-loadHeaderFooter()
+loadHeaderFooter();
