@@ -1,5 +1,5 @@
 // Font Imports
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Ramaraja&display=swap');
 
 
 // Override Bootstrap variables
@@ -19,8 +19,8 @@ $color-tertiary: #D0F0C0;
 
 $body-bg: $color-primary;
 
-$headings-font-family: 'Dancing Script', cursive;
-$font-family-base: 'Roboto', sans-serif;
+$headings-font-family: 'Ramaraja', serif;
+$font-family-base: 'Montserrat', sans-serif;
 
 /* Import Basic Element Rules */
 @import "../scss/basic.scss";
@@ -69,6 +69,12 @@ section {
 
 /* Blog Styles */
 @import './blogs.scss';
+
+/* Form Styles */
+@import './forms.scss';
+
+/* Utility Styles */
+@import './util.scss';
 
 /* Import Bootsrap */
 

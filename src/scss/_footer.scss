@@ -27,6 +27,7 @@ footer {
             line-height: 35px;
             margin-left: 3px;
             transition:all .25s;
+            box-shadow: 0 0 1em rgba(0, 0, 0, .5);
             &:hover {
                 transform:scale(1.1); 
                 -webkit-transform:scale(1.1);

@@ -1,11 +1,10 @@
 import ExternalServices from "./externalServices";
-import { renderListWithTemplate, renderWithTemplateId, loadTemplate, renderWithTemplate } from "./util";
+import { renderListWithTemplate, loadTemplate, renderWithTemplate } from "./util";
 
 export default class BlogManager {
-    constructor(parent, templateId) {
-        this.dataSource = new ExternalServices
+    constructor(parent) {
+        this.dataSource = new ExternalServices()
         this.parent = parent
-        this.templateId = templateId
     }
 
     async renderFeaturedBlogs() {
@@ -15,15 +14,17 @@ export default class BlogManager {
         })
     }
 
-    async renderBlogSummaryList() {
-        const blogs = await this.dataSource.getBlogs()
+    async renderBlogSummaryList(blogs = null, admin=null) {
+        if (blogs == null) {
+            blogs = await this.dataSource.getBlogs()
+        }
         loadTemplate('../partials/blog-summary.html').then((template) => {
             console.log(template)
-            renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
+            renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary, admin)
         })
     }
 
-    renderBlogSummary(clone, blog) {
+    renderBlogSummary(clone, blog, admin=null) {
         // Set Title
         clone.querySelector(".blog-summary-title").textContent = blog.title
         // Set Author
@@ -38,6 +39,31 @@ export default class BlogManager {
         if (blog.featured == 'true') {
             clone.querySelector(".blog-summary-featured").textContent = 'Featured!'
         }
+        if(admin) {
+            // Add edit button
+            const editButton = document.createElement("button")
+            editButton.classList.add("btn", "btn-primary")
+            editButton.textContent = "Edit"
+            editButton.addEventListener("click", () => {
+                window.location.href = `/admin?id=${blog.id}`
+            })
+            clone.querySelector(".admin-buttons").appendChild(editButton)
+            // Add delete button
+            const deleteButton = document.createElement("button")
+            deleteButton.classList.add("btn", "btn-danger")
+            deleteButton.textContent = "Delete"
+            deleteButton.addEventListener("click", () => {
+                // Get confirmation
+                if (confirm("Are you sure you want to delete this blog?")) {
+                    const dataSource = new ExternalServices()
+                    console.log(blog.id)
+                    dataSource.deleteBlog(blog.id).then(() => {
+                        window.location.href = "/admin"
+                    })
+                }
+            })
+            clone.querySelector(".admin-buttons").appendChild(deleteButton)
+        }
         return clone
     }
 
@@ -50,7 +76,6 @@ export default class BlogManager {
     }
 
     renderBlogDetails(clone, blog) {
-        console.log(blog)
         // Set Title
         clone.querySelector(".blog-details-title").textContent = blog.title
         // Set Author

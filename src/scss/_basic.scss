@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+a {
+	cursor: pointer;
+}
+
 html, body {
 	height: 100%;
 }
@@ -19,6 +23,10 @@ main {
 
 footer {
 	flex-shrink: 0;
+}
+
+h1, h2, h3 {
+	letter-spacing: .02em;
 }
 
 h1 {

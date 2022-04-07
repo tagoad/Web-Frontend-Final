@@ -24,8 +24,8 @@ export default class ExternalServices {
         return data.items.pop()
     }
 
-    async getBlogByUser(user) {
-        const res = await fetch(baseURL + '/blogs?user=' + user)
+    async getBlogsByUser(user) {
+        const res = await fetch(baseURL + '/blogs/user/' + user)
         const data = await res.json()
         return data
     }
@@ -35,16 +35,16 @@ export default class ExternalServices {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
+                "Access-Control-Allow-Origin":"*"
             },
             body: JSON.stringify(blog)
-        })
-        const data = await res.json()
-        return data
+        }).then(res => res.json())
+        .catch(err => err.json())
+        return res
     }
 
     async deleteBlog(id, token) {
-        const res = await fetch(baseURL + '/blogs?id=' + id, {
+        const res = await fetch(baseURL + '/blogs/id/' + id, {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -63,7 +63,7 @@ export default class ExternalServices {
             })
         })
         const data = await res.json()
-        setLocalStorage('token', data.token)
+        return data
     }
 
     async register(fname, lname, dname, email, password) {
