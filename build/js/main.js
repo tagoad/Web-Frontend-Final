@@ -1,4 +1,11 @@
-import ExternalServices from "./externalServices.js";
-import { getLocalStorage } from "./util.js";
+import BlogManager from "./blogManager.js";
+import { loadHeaderFooter } from "./util.js";
 
-const externalServices = new ExternalServices();
+const blogManager = new BlogManager(
+  document.querySelector(".blog-featured-list")
+);
+
+// Render List of Featured Blog Summaries
+blogManager.renderFeaturedBlogs();
+// Load Header and Footer
+loadHeaderFooter();

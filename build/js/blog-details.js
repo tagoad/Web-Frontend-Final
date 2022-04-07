@@ -1,5 +1,5 @@
-import BlogManager from "./blogManager";
-import { loadHeaderFooter, getURLParams } from "./util";
+import BlogManager from "./blogManager.js";
+import { loadHeaderFooter, getURLParams } from "./util.js";
 
 const blogManager = new BlogManager(document.querySelector("main"));
 

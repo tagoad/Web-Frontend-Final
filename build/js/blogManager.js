@@ -1,9 +1,9 @@
-import ExternalServices from "./externalServices";
+import ExternalServices from "./externalServices.js";
 import {
   renderListWithTemplate,
   loadTemplate,
   renderWithTemplate,
-} from "./util";
+} from "./util.js";
 
 export default class BlogManager {
   // Default constructor

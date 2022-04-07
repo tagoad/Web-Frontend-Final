@@ -1,0 +1,25 @@
+.alert_message {
+    &.alert {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5em;
+        color: white;
+        background-color: rgb(253, 110, 110);
+    }
+    &.success {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5em;
+        color: black;
+        background-color: lightgreen;
+    }
+    & p {
+        margin: 0;
+        padding: 0;
+    }
+    & .close {
+        cursor: pointer;
+    }
+}
