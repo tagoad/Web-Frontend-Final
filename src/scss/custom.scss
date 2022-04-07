@@ -12,8 +12,29 @@ $container-max-widths: (
   xxl: 990px,
 );
 
+// Set Color Variables
+$color-primary: #54626f;
+$color-secondary: #002147;
+$color-tertiary: #D0F0C0;
+
+$body-bg: $color-primary;
+
 $headings-font-family: 'Dancing Script', cursive;
 $font-family-base: 'Roboto', sans-serif;
+
+/* Import Basic Element Rules */
+@import "../scss/basic.scss";
+
+section {
+	width: 100%;
+	display: inline-block;
+	background: #ccc;
+	height: 60vh;
+	text-align: center;
+	font-size: 22px;
+	font-weight: 700;
+	text-decoration: underline;
+}
 
 .banner {
 	background: url('http://www.autodatz.com/wp-content/uploads/2017/05/Old-Car-Wallpapers-Hd-36-with-Old-Car-Wallpapers-Hd.jpg');
@@ -35,51 +56,21 @@ $font-family-base: 'Roboto', sans-serif;
     }
 }
 
-h1 {
-	font-size: 80px;
-	margin-bottom: 30px;
-}
-
-h3 {
-	font-family: 'Open Sans', sans-serif;
-	margin-bottom: 30px;
-}
-
-button {
-	border: none;
-	outline: none;
-	padding: 10px 20px;
-	border-radius: 50px;
-	color: #333;
-	background: #fff;
-	margin-bottom: 50px;
-	box-shadow: 0 3px 20px 0 #0000003b;
-    &:hover {
-        cursor: pointer;
-    }
-}
-
 .container-title {
     position: sticky;
     top: 0;
     text-align: left;
     padding: 1em;
-    background-color: lightgray;
-}
-
-section {
-	width: 100%;
-	display: inline-block;
-	background: #ccc;
-	height: 60vh;
-	text-align: center;
-	font-size: 22px;
-	font-weight: 700;
-	text-decoration: underline;
+    background-color: $color-secondary;
+	color: white;
+	border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
 }
 
 /* Blog Styles */
 @import './blogs.scss';
+
+/* Import Bootsrap */
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 

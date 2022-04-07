@@ -9,21 +9,22 @@
 
 .blog-summary {
     width: 100%;
-    border: 1px solid #ccc;
+    background-color: lighten($color-primary, 20%);
+    border: 1px solid lighten($color-primary, 10%);
     border-radius: .5em;
     overflow: hidden;
     & .blog-summary-featured {
         width: 100%;
         padding-left: .5em;
         text-align: center;
-        background-color: gold;
+        background-color: darken($color-tertiary, 10%);
     }
     & .blog-summary-header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        background-color: lightgray;
+        background-color: lighten($color-primary, 10%);
         padding: .5em;
         & .blog-summary-header-info {
             display: flex;
@@ -43,7 +44,6 @@
         & .blog-summary-date {
             font-size: 1.5em;
             font-weight: bold;
-            color: #999;
             margin: 0;
         }
     }
@@ -58,6 +58,48 @@
     }
     & .blog-summary-footer {
         padding: .5em;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid darken($color-tertiary, 20%);
+        a {
+            text-decoration: none;
+            color: darken($color-tertiary, 10%);
+            &:hover {
+                text-decoration: underline;
+                transform: scale(1.2);
+                -webkit-transform:scale(1.2);
+
+            }
+        }
     }
+}
+
+.blog-details-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    & .blog-details-meta {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: end;
+        & h2 {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
+}
+
+.blog-details {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin-left: .5em;
+    margin-right: .5em;
+    padding: .5em;
+    background-color: lighten($color-primary, 20%);
+    border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
 }

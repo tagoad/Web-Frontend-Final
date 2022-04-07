@@ -16,9 +16,11 @@ export default class ExternalServices {
     }
 
     async getBlogById(id) {
-        const res = await fetch(baseURL + '/blogs?id=' + id)
+        console.log(id)
+        const res = await fetch(baseURL + '/blogs/id/' + id)
         const data = await res.json()
-        return data
+        console.log(data)
+        return data.items.pop()
     }
 
     async getBlogByUser(user) {

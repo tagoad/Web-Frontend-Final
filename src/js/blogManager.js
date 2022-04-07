@@ -1,5 +1,5 @@
 import ExternalServices from "./externalServices";
-import { renderListWithTemplate, renderWithTemplateId, loadTemplate } from "./util";
+import { renderListWithTemplate, renderWithTemplateId, loadTemplate, renderWithTemplate } from "./util";
 
 export default class BlogManager {
     constructor(parent, templateId) {
@@ -11,7 +11,6 @@ export default class BlogManager {
     async renderFeaturedBlogs() {
         const blogs = await this.dataSource.getFeaturedBlogs()
         loadTemplate('../partials/blog-summary.html').then((template) => {
-            console.log(template)
             renderListWithTemplate(template, this.parent, blogs.items, this.renderBlogSummary)
         })
     }
@@ -34,7 +33,7 @@ export default class BlogManager {
         // Set Content
         clone.querySelector(".blog-summary-content").textContent = blog.summary
         // Set Link
-        clone.querySelector(".blog-summary-link").setAttribute("href", `/blog?id=${blog.id}`)
+        clone.querySelector(".blog-summary-link").setAttribute("href", `/blog-details?id=${blog.id}`)
         // Set Featured
         if (blog.featured == 'true') {
             clone.querySelector(".blog-summary-featured").textContent = 'Featured!'
@@ -44,20 +43,22 @@ export default class BlogManager {
 
     async renderBlogDetail(id) {
         const blog = await this.dataSource.getBlogById(id)
-        renderWithTemplateId(this.templateId, this.parent, blog, this.renderBlogDetails)
+        loadTemplate('../partials/blog-details.html').then((template) => {
+            console.log(template)
+            renderWithTemplate(template, this.parent, blog, this.renderBlogDetails)
+        })
     }
 
     renderBlogDetails(clone, blog) {
+        console.log(blog)
         // Set Title
-        clone.querySelector(".blog-detail-title").textContent = blog.title
+        clone.querySelector(".blog-details-title").textContent = blog.title
         // Set Author
-        clone.querySelector(".blog-detail-author").textContent = blog.dName
+        clone.querySelector(".blog-details-author").textContent = blog.dName
         // Set Date
-        clone.querySelector(".blog-detail-date").textContent = blog.date
+        clone.querySelector(".blog-details-date").textContent = blog.date
         // Set Content
-        clone.querySelector(".blog-detail-content").textContent = blog.content
-        // Set Link
-        clone.querySelector(".blog-detail-link").setAttribute("href", `/blogs/id/${blog.id}`)
+        clone.querySelector(".blog-details-content").textContent = blog.content
         return clone
     }
 }

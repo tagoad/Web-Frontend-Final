@@ -34,7 +34,6 @@ export function renderListWithTemplate(
     list,
     callback
 ) {
-    console.log(template)
     list.forEach((item) => {
         const clone = template.content.cloneNode(true);
         const renderedTemplate = callback(clone, item);
@@ -63,6 +62,7 @@ export function renderWithTemplate(
     const clone = template.content.cloneNode(true);
     if (callback) {
       const renderedTemplate = callback(clone, data);
+      console.log(renderedTemplate)
       parentElement.appendChild(renderedTemplate);
     } else {
       parentElement.appendChild(clone);
@@ -73,7 +73,6 @@ export async function loadTemplate(path) {
     const contents = await fetch(path).then((res) => res.text());
     const template = document.createElement("template");
     template.innerHTML = contents;
-    console.log(template)
     return template;
   }
 
@@ -87,3 +86,7 @@ export function loadHeaderFooter() {
     );
 }
 
+export function getURLParams(url = window.location.href) {
+    const params = (new URL(url)).searchParams;
+    return params;
+}
